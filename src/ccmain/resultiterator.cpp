@@ -684,11 +684,16 @@ void ResultIterator::AppendUTF8ParagraphText(STRING *text) const {
 }
 
 bool ResultIterator::BidiDebug(int min_level) const {
-  int debug_level = 1;
-  IntParam *p = ParamUtils::FindParam<IntParam>(
+  static int debug_level = -1;
+  if (debug_level == -1) {
+    IntParam *p = ParamUtils::FindParam<IntParam>(
       "bidi_debug", GlobalParams()->int_params,
       tesseract_->params()->int_params);
-  if (p != nullptr) debug_level = (int32_t)(*p);
+    if (p == nullptr)
+      debug_level = 1;
+    else
+      debug_level = (int32_t)(*p);
+  }
   return debug_level >= min_level;
 }
 
