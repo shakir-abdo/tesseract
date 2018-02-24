@@ -145,11 +145,6 @@ BOOL_PARAM_FLAG(render_ngrams, false, "Put each space-separated entity from the"
                 " file will be randomly permuted before rendering (so that"
                 " there is sufficient variety of characters on each line).");
 
-BOOL_PARAM_FLAG(output_word_boxes, false,
-                "Output word bounding boxes instead of character boxes. "
-                "This is used for Cube training, and implied by "
-                "--render_ngrams.");
-
 STRING_PARAM_FLAG(unicharset_file, "",
                   "File with characters in the unicharset. If --render_ngrams"
                   " is true and --unicharset_file is specified, ngrams with"
@@ -460,9 +455,6 @@ static int Main() {
     }
   }
 
-  if (FLAGS_render_ngrams)
-    FLAGS_output_word_boxes = true;
-
   char font_desc_name[1024];
   snprintf(font_desc_name, 1024, "%s %d", font_name.c_str(),
             static_cast<int>(FLAGS_ptsize));
@@ -474,7 +466,6 @@ static int Main() {
   render.set_char_spacing(FLAGS_char_spacing * FLAGS_ptsize);
   render.set_h_margin(FLAGS_margin);
   render.set_v_margin(FLAGS_margin);
-  render.set_output_word_boxes(FLAGS_output_word_boxes);
   render.set_box_padding(FLAGS_box_padding);
   render.set_strip_unrenderable_words(FLAGS_strip_unrenderable_words);
   render.set_underline_start_prob(FLAGS_underline_start_prob);

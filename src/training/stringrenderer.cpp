@@ -107,7 +107,6 @@ StringRenderer::StringRenderer(const std::string& font_desc, int page_width,
       drop_uncovered_chars_(true),
       strip_unrenderable_words_(false),
       add_ligatures_(false),
-      output_word_boxes_(false),
       surface_(nullptr),
       cr_(nullptr),
       layout_(nullptr),
@@ -573,11 +572,6 @@ void StringRenderer::ComputeClusterBoxes() {
       std::string half(ConvertFullwidthLatinToBasicLatin(it->second->ch()));
       it->second->mutable_ch()->swap(half);
     }
-  }
-
-  // Merge the character boxes into word boxes if we are rendering n-grams.
-  if (output_word_boxes_) {
-    MergeBoxCharsToWords(&page_boxchars);
   }
 
   boxchars_.insert(boxchars_.end(), page_boxchars.begin(), page_boxchars.end());

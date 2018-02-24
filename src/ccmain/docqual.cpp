@@ -907,6 +907,7 @@ CRUNCH_MODE Tesseract::word_deletable(WERD_RES *word, int16_t &delete_mode) {
     return CR_DELETE;
   }
 
+  assert(word->rebuild_word != nullptr);
   if (word->rebuild_word != nullptr) {
     // Cube leaves rebuild_word nullptr.
     box = word->rebuild_word->bounding_box();

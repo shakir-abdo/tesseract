@@ -109,9 +109,6 @@ class StringRenderer {
   void set_strip_unrenderable_words(bool val) {
     strip_unrenderable_words_ = val;
   }
-  void set_output_word_boxes(bool val) {
-    output_word_boxes_ = val;
-  }
   // Before rendering the string, replace latin characters with their optional
   // ligatured forms (such as "fi", "ffi" etc.) if the font_ covers those
   // unicodes.
@@ -196,7 +193,6 @@ class StringRenderer {
   bool drop_uncovered_chars_;
   bool strip_unrenderable_words_;
   bool add_ligatures_;
-  bool output_word_boxes_;
   // Pango and cairo specific objects
   cairo_surface_t* surface_;
   cairo_t* cr_;
