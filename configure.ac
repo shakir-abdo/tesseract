@@ -56,7 +56,6 @@ AC_SUBST([GENERIC_MINOR_VERSION])
 AC_SUBST([GENERIC_MICRO_VERSION])
 
 AC_SUBST([GENERIC_LIBRARY_VERSION])
-PACKAGE=$GENERIC_LIBRARY_NAME
 AC_SUBST([GENERIC_LIBRARY_NAME])
 
 GENERIC_VERSION=$GENERIC_MAJOR_VERSION.$GENERIC_MINOR_VERSION.$GENERIC_MICRO_VERSION
@@ -135,7 +134,7 @@ AC_ARG_WITH([extra-includes],
             [AS_HELP_STRING([--with-extra-includes=DIR],
                        [Define an additional directory for include files])],
             [if test -d "$withval" ; then
-               CFLAGS="$CFLAGS -I$withval"
+               CPPFLAGS="$CPPFLAGS -I$withval"
              else
                AC_MSG_ERROR([Cannot stat directory $withval])
              fi])
