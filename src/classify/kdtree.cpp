@@ -164,9 +164,9 @@ void KDTreeSearch::Search(int *result_count,
     int count = results_.elements_count();
     *result_count = count;
     for (int j = 0; j < count; j++) {
-      // Pre-cast to float64 as key is a template type and we have no control
+      // Use sqrtf as key is a template type and we have no control
       // over its actual type.
-      distances[j] = (float)sqrt((double)results_.elements()[j].key);
+      distances[j] = sqrtf(results_.elements()[j].key);
       results[j] = results_.elements()[j].value;
     }
   }

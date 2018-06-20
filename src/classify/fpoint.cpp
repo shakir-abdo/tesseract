@@ -26,9 +26,9 @@
 ----------------------------------------------------------------------------*/
 
 float DistanceBetween(FPOINT A, FPOINT B) {
-  const double xd = XDelta(A, B);
-  const double yd = YDelta(A, B);
-  return sqrt(static_cast<double>(xd * xd + yd * yd));
+  const float xd = XDelta(A, B);
+  const float yd = YDelta(A, B);
+  return sqrtf(xd * xd + yd * yd);
 }
 
 /**

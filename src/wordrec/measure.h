@@ -99,7 +99,7 @@ typedef struct
  **********************************************************************/
 
 #define standard_deviation(m)                                \
-((float) sqrt (VARIANCE (m)))
+sqrtf(VARIANCE(m)))
 
 /**********************************************************************
  * variance

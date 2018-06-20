@@ -77,7 +77,7 @@ class ICOORD
 
     ///find length
     float length() const {
-      return (float) sqrt (sqlength ());
+      return sqrtf(sqlength());
     }
 
     ///sq dist between pts
@@ -91,7 +91,7 @@ class ICOORD
 
     ///Distance between pts
     float pt_to_pt_dist(const ICOORD &pt) const {
-      return (float) sqrt (pt_to_pt_sqdist (pt));
+      return sqrtf(pt_to_pt_sqdist(pt));
     }
 
     ///find angle
@@ -227,7 +227,7 @@ class DLLSYM FCOORD
 
     ///find length
     float length() const {
-      return (float) sqrt (sqlength ());
+      return sqrtf(sqlength());
     }
 
     ///sq dist between pts
@@ -241,7 +241,7 @@ class DLLSYM FCOORD
 
     ///Distance between pts
     float pt_to_pt_dist(const FCOORD &pt) const {
-      return (float) sqrt (pt_to_pt_sqdist (pt));
+      return sqrtf(pt_to_pt_sqdist(pt));
     }
 
     ///find angle

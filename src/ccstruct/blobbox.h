@@ -629,7 +629,7 @@ class TO_ROW: public ELIST2_LINK
       para_error = new_error;
       credibility =
         (float) (blobs.length () - kErrorWeight * new_error);
-      y_origin = (float) (new_c / sqrt (1 + gradient * gradient));
+      y_origin = new_c / sqrtf(1 + gradient * gradient);
       //real intercept
     }
     void set_limits(                  //set min,max

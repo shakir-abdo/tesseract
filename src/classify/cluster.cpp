@@ -639,15 +639,13 @@ float Mean(PROTOTYPE *Proto, uint16_t Dimension) {
 float StandardDeviation(PROTOTYPE *Proto, uint16_t Dimension) {
   switch (Proto->Style) {
     case spherical:
-      return ((float) sqrt ((double) Proto->Variance.Spherical));
+      return sqrtf(Proto->Variance.Spherical);
     case elliptical:
-      return ((float)
-        sqrt ((double) Proto->Variance.Elliptical[Dimension]));
+      return sqrtf(Proto->Variance.Elliptical[Dimension]);
     case mixed:
       switch (Proto->Distrib[Dimension]) {
         case normal:
-          return ((float)
-            sqrt ((double) Proto->Variance.Elliptical[Dimension]));
+          return sqrtf(Proto->Variance.Elliptical[Dimension]);
         case uniform:
         case D_random:
           return (Proto->Variance.Elliptical[Dimension]);
@@ -1181,7 +1179,7 @@ PROTOTYPE *MakeSphericalProto(CLUSTERER *Clusterer,
 
     FillBuckets (Buckets, Cluster, i, &(Clusterer->ParamDesc[i]),
       Cluster->Mean[i],
-      sqrt ((double) (Statistics->AvgVariance)));
+      sqrtf(Statistics->AvgVariance));
     if (!DistributionOK (Buckets))
       break;
   }
@@ -1216,8 +1214,7 @@ PROTOTYPE *MakeEllipticalProto(CLUSTERER *Clusterer,
 
     FillBuckets (Buckets, Cluster, i, &(Clusterer->ParamDesc[i]),
       Cluster->Mean[i],
-      sqrt ((double) Statistics->
-      CoVariance[i * (Clusterer->SampleSize + 1)]));
+      sqrtf(Statistics->CoVariance[i * (Clusterer->SampleSize + 1)]));
     if (!DistributionOK (Buckets))
       break;
   }
@@ -1260,9 +1257,8 @@ PROTOTYPE *MakeMixedProto(CLUSTERER *Clusterer,
     if (Clusterer->ParamDesc[i].NonEssential)
       continue;
 
-    FillBuckets (NormalBuckets, Cluster, i, &(Clusterer->ParamDesc[i]),
-      Proto->Mean[i],
-      sqrt ((double) Proto->Variance.Elliptical[i]));
+    FillBuckets(NormalBuckets, Cluster, i, &(Clusterer->ParamDesc[i]),
+      Proto->Mean[i], sqrtf(Proto->Variance.Elliptical[i]));
     if (DistributionOK (NormalBuckets))
       continue;
 
@@ -1454,7 +1450,7 @@ PROTOTYPE *NewSphericalProto(uint16_t N,
     Proto->Variance.Spherical = MINVARIANCE;
 
   Proto->Magnitude.Spherical =
-    1.0 / sqrt(2.0 * M_PI * Proto->Variance.Spherical);
+    1 / sqrtf(2 * M_PI * Proto->Variance.Spherical);
   Proto->TotalMagnitude = (float)pow((double)Proto->Magnitude.Spherical,
                                      (double) N);
   Proto->Weight.Spherical = 1.0 / Proto->Variance.Spherical;
@@ -1493,7 +1489,7 @@ PROTOTYPE *NewEllipticalProto(int16_t N,
       Proto->Variance.Elliptical[i] = MINVARIANCE;
 
     Proto->Magnitude.Elliptical[i] =
-      1.0 / sqrt(2.0 * M_PI * Proto->Variance.Elliptical[i]);
+      1 / sqrtf(2 * M_PI * Proto->Variance.Elliptical[i]);
     Proto->Weight.Elliptical[i] = 1.0 / Proto->Variance.Elliptical[i];
     Proto->TotalMagnitude *= Proto->Magnitude.Elliptical[i];
   }
@@ -1598,7 +1594,7 @@ Independent(PARAM_DESC* ParamDesc,
         CorrelationCoeff = 0.0;
       else
         CorrelationCoeff =
-          sqrt (sqrt (*CoVariance * *CoVariance / (*VARii * *VARjj)));
+          sqrtf(sqrtf(*CoVariance * *CoVariance / (*VARii * *VARjj)));
       if (CorrelationCoeff > Independence)
         return false;
     }

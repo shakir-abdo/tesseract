@@ -142,7 +142,7 @@ PROTOTYPE *ReadPrototype(TFile *fp, uint16_t N) {
     case spherical:
       ASSERT_HOST(ReadNFloats(fp, 1, &(Proto->Variance.Spherical)) != nullptr);
       Proto->Magnitude.Spherical =
-          1.0 / sqrt(2.0 * M_PI * Proto->Variance.Spherical);
+          1 / sqrtf(2 * M_PI * Proto->Variance.Spherical);
       Proto->TotalMagnitude = pow(Proto->Magnitude.Spherical, (float)N);
       Proto->LogMagnitude = log((double)Proto->TotalMagnitude);
       Proto->Weight.Spherical = 1.0 / Proto->Variance.Spherical;
@@ -156,7 +156,7 @@ PROTOTYPE *ReadPrototype(TFile *fp, uint16_t N) {
       Proto->TotalMagnitude = 1.0;
       for (i = 0; i < N; i++) {
         Proto->Magnitude.Elliptical[i] =
-            1.0 / sqrt(2.0 * M_PI * Proto->Variance.Elliptical[i]);
+            1 / sqrtf(2 * M_PI * Proto->Variance.Elliptical[i]);
         Proto->Weight.Elliptical[i] = 1.0 / Proto->Variance.Elliptical[i];
         Proto->TotalMagnitude *= Proto->Magnitude.Elliptical[i];
       }
