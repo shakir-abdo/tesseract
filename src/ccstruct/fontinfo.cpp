@@ -224,7 +224,7 @@ bool write_spacing_info(FILE* f, const FontInfo& fi) {
 
 bool read_set(TFile* f, FontSet* fs) {
   if (!f->DeSerialize(&fs->size)) return false;
-  fs->configs = new int[fs->size];
+  fs->configs = new int32_t[fs->size];
   return f->DeSerialize(&fs->configs[0], fs->size);
 }
 

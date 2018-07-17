@@ -280,13 +280,8 @@ void Classify::PrintAdaptedTemplates(FILE *File, ADAPT_TEMPLATES Templates) {
  * @note Globals: none
  */
 ADAPT_CLASS ReadAdaptedClass(TFile *fp) {
-  int NumTempProtos;
-  int NumConfigs;
-  int i;
-  ADAPT_CLASS Class;
-
   /* first read high level adapted class structure */
-  Class = (ADAPT_CLASS) Emalloc (sizeof (ADAPT_CLASS_STRUCT));
+  ADAPT_CLASS Class = (ADAPT_CLASS) Emalloc (sizeof (ADAPT_CLASS_STRUCT));
   fp->FRead(Class, sizeof(ADAPT_CLASS_STRUCT), 1);
 
   /* then read in the definitions of the permanent protos and configs */
@@ -298,26 +293,26 @@ ADAPT_CLASS ReadAdaptedClass(TFile *fp) {
             WordsInVectorOfSize(MAX_NUM_CONFIGS));
 
   /* then read in the list of temporary protos */
-  fp->FRead(&NumTempProtos, sizeof(int), 1);
+  int32_t NumTempProtos;
+  fp->FRead(&NumTempProtos, sizeof(NumTempProtos), 1);
   Class->TempProtos = NIL_LIST;
-  for (i = 0; i < NumTempProtos; i++) {
+  for (int32_t i = 0; i < NumTempProtos; i++) {
     TEMP_PROTO TempProto = (TEMP_PROTO)malloc(sizeof(TEMP_PROTO_STRUCT));
     fp->FRead(TempProto, sizeof(TEMP_PROTO_STRUCT), 1);
     Class->TempProtos = push_last (Class->TempProtos, TempProto);
   }
 
   /* then read in the adapted configs */
-  fp->FRead(&NumConfigs, sizeof(int), 1);
-  for (i = 0; i < NumConfigs; i++)
+  int32_t NumConfigs;
+  fp->FRead(&NumConfigs, sizeof(NumConfigs), 1);
+  for (int32_t i = 0; i < NumConfigs; i++)
     if (test_bit (Class->PermConfigs, i))
       Class->Config[i].Perm = ReadPermConfig(fp);
     else
       Class->Config[i].Temp = ReadTempConfig(fp);
 
   return (Class);
-
-}                                /* ReadAdaptedClass */
-
+} // ReadAdaptedClass
 
 /*---------------------------------------------------------------------------*/
 namespace tesseract {
