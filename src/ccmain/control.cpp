@@ -2035,7 +2035,8 @@ void Tesseract::set_word_fonts(WERD_RES *word) {
   if (score1 > 0) {
     const FontInfo fi = fontinfo_table_.get(font_id1);
     if (tessedit_debug_fonts) {
-      if (word->fontinfo_id2_count > 0 && font_id2 >= 0) {
+      if (word->fontinfo_id2_count > 0) {
+        ASSERT_HOST(font_id2 >= 0);
         tprintf("Word modal font=%s, score=%d, 2nd choice %s/%d\n",
                 fi.name, word->fontinfo_id_count,
                 fontinfo_table_.get(font_id2).name,
