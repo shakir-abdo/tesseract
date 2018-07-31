@@ -572,15 +572,15 @@ void RecodeBeamSearch::ContinueContext(const RecodeNode* prev, int index,
   int length = LengthFromBeamsIndex(index);
   bool use_dawgs = IsDawgFromBeamsIndex(index);
   NodeContinuation prev_cont = ContinuationFromBeamsIndex(index);
+  ASSERT_HOST(previous != nullptr || length == 0);
   for (int p = length - 1; p >= 0; --p, previous = previous->prev) {
     while (previous != nullptr &&
            (previous->duplicate || previous->code == null_char_)) {
       previous = previous->prev;
     }
-    if (previous != nullptr) {
-      prefix.Set(p, previous->code);
-      full_code.Set(p, previous->code);
-    }
+    ASSERT_HOST(previous != nullptr);
+    prefix.Set(p, previous->code);
+    full_code.Set(p, previous->code);
   }
   if (prev != nullptr && !is_simple_text_) {
     if (top_n_flags_[prev->code] == top_n_flag) {
