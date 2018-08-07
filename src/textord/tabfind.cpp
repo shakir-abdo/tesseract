@@ -537,10 +537,10 @@ ScrollView* TabFind::FindInitialTabVectors(BLOBNBOX_LIST* image_blobs,
   return initial_win;
 }
 
+#ifndef GRAPHICS_DISABLED
 // Helper displays all the boxes in the given vector on the given window.
 static void DisplayBoxVector(const GenericVector<BLOBNBOX*>& boxes,
                              ScrollView* win) {
-  #ifndef GRAPHICS_DISABLED
   for (int i = 0; i < boxes.size(); ++i) {
     TBOX box = boxes[i]->bounding_box();
     int left_x = box.left();
@@ -552,8 +552,8 @@ static void DisplayBoxVector(const GenericVector<BLOBNBOX*>& boxes,
     win->Rectangle(left_x, bottom_y, right_x, top_y);
   }
   win->Update();
-  #endif  // GRAPHICS_DISABLED
 }
+#endif // GRAPHICS_DISABLED
 
 // For each box in the grid, decide whether it is a candidate tab-stop,
 // and if so add it to the left/right tab boxes.
