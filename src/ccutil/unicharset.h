@@ -26,6 +26,7 @@
 #include "serialis.h"
 #include "strngs.h"
 #include "tesscallback.h"
+#include "tprintf.h"
 #include "unichar.h"
 #include "unicharmap.h"
 
@@ -277,6 +278,8 @@ class UNICHARSET {
   // Return true if the given unichar id exists within the set.
   // Relies on the fact that unichar ids are contiguous in the unicharset.
   bool contains_unichar_id(UNICHAR_ID unichar_id) const {
+if (unichar_id != INVALID_UNICHAR_ID && unichar_id > 0)
+tprintf("unichar %u\t%u\n", unichar_id, size_used);
     return unichar_id != INVALID_UNICHAR_ID && unichar_id < size_used &&
         unichar_id >= 0;
   }

@@ -32,16 +32,16 @@ namespace tesseract {
 const double kMaxSmallNeighboursPerPix = 1.0 / 32;
 // Max number of small blobs a large blob may overlap before it is rejected
 // and determined to be image.
-const int kMaxLargeOverlapsWithSmall = 3;
+const int kMaxLargeOverlapsWithSmall = 6;
 // Max number of small blobs a medium blob may overlap before it is rejected
 // and determined to be image. Larger than for large blobs as medium blobs
 // may be complex Chinese characters. Very large Chinese characters are going
 // to overlap more medium blobs than small.
-const int kMaxMediumOverlapsWithSmall = 12;
+const int kMaxMediumOverlapsWithSmall = 24;
 // Max number of normal blobs a large blob may overlap before it is rejected
 // and determined to be image. This is set higher to allow for drop caps, which
 // may overlap a lot of good text blobs.
-const int kMaxLargeOverlapsWithMedium = 12;
+const int kMaxLargeOverlapsWithMedium = 24;
 // Multiplier of original noise_count used to test for the case of spreading
 // noise beyond where it should really be.
 const int kOriginalNoiseMultiple = 8;
