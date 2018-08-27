@@ -123,6 +123,7 @@ check_PROGRAMS = \
 
 if ENABLE_TRAINING
 check_PROGRAMS += commandlineflags_test
+check_PROGRAMS += ligature_table_test
 check_PROGRAMS += validator_test
 endif
 
@@ -178,6 +179,9 @@ intsimdmatrix_test_LDADD = $(GTEST_LIBS) $(TESS_LIBS)
 
 lang_model_test_SOURCES = lang_model_test.cc
 lang_model_test_LDADD = $(ABSEIL_LIBS) $(GTEST_LIBS) $(TRAINING_LIBS) $(TESS_LIBS) $(ICU_I18N_LIBS) $(ICU_UC_LIBS)
+
+ligature_table_test_SOURCES = ligature_table_test.cc
+ligature_table_test_LDADD = $(GTEST_LIBS) $(TRAINING_LIBS) $(TESS_LIBS) -lfontconfig $(pango_LIBS) -lpangocairo-1.0 $(cairo_LIBS) -lpangoft2-1.0 $(ICU_I18N_LIBS) $(ICU_UC_LIBS)
 
 linlsq_test_SOURCES = linlsq_test.cc
 linlsq_test_LDADD = $(GTEST_LIBS) $(TESS_LIBS)
