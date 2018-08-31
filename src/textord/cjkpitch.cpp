@@ -345,7 +345,7 @@ class FPRow {
     return gap_;
   }
 
-  size_t num_chars() {
+  unsigned num_chars() {
     return characters_.size();
   }
   FPChar *character(int i) {
@@ -558,7 +558,7 @@ void FPRow::OutputEstimations() {
 
   // Make max_nonspace larger than any intra-character gap so that
   // make_prop_words() won't break a row at the middle of a character.
-  for (size_t i = 0; i < num_chars(); ++i) {
+  for (unsigned i = 0; i < num_chars(); ++i) {
     if (characters_[i].max_gap() > real_row_->max_nonspace) {
       real_row_->max_nonspace = characters_[i].max_gap();
     }
@@ -574,7 +574,7 @@ void FPRow::OutputEstimations() {
   cell_it.add_after_then_move(cell);
 
   int right = real_body(0).right();
-  for (size_t i = 1; i < num_chars(); ++i) {
+  for (unsigned i = 1; i < num_chars(); ++i) {
     // Put a word break if gap between two characters is bigger than
     // space_threshold.  Don't break if none of two characters
     // couldn't be "finalized", because maybe they need to be merged
@@ -616,7 +616,7 @@ void FPRow::EstimatePitch(bool pass1) {
   cx0 = center_x(0);
 
   heights_.Add(box(0).height());
-  for (size_t i = 1; i < num_chars(); i++) {
+  for (unsigned i = 1; i < num_chars(); i++) {
     cx1 = center_x(i);
     int32_t pitch = cx1 - cx0;
     int32_t gap = std::max(0, real_body(i - 1).x_gap(real_body(i)));
@@ -694,14 +694,14 @@ void FPRow::Pass1Analyze() {
   if (num_chars() < 2) return;
 
   if (estimated_pitch_ > 0.0f) {
-    for (size_t i = 2; i < num_chars(); i++) {
+    for (unsigned i = 2; i < num_chars(); i++) {
       if (is_good_pitch(estimated_pitch_, box(i - 2), box(i-1)) &&
           is_good_pitch(estimated_pitch_, box(i - 1), box(i))) {
         mark_good(i - 1);
       }
     }
   } else {
-    for (size_t i = 2; i < num_chars(); i++) {
+    for (unsigned i = 2; i < num_chars(); i++) {
       if (is_good_pitch(box_pitch(box(i-2), box(i-1)), box(i - 1), box(i))) {
         mark_good(i - 1);
       }
@@ -717,7 +717,7 @@ bool FPRow::Pass2Analyze() {
   if (num_chars() <= 1 || estimated_pitch_ == 0.0f) {
     return false;
   }
-  for (size_t i = 0; i < num_chars(); i++) {
+  for (unsigned i = 0; i < num_chars(); i++) {
     if (is_final(i)) continue;
 
     FPChar::Alignment alignment = character(i)->alignment();
@@ -788,7 +788,7 @@ bool FPRow::Pass2Analyze() {
       }
       TBOX ibody(c1 - estimated_pitch_, box(i).bottom(), c1, box(i).top());
 
-      size_t j = i;
+      unsigned j = i;
       TBOX merged;
       while (j < num_chars() && !is_final(j) && mostly_overlap(ibody, box(j)) &&
              merged.bounding_union(box(j)).height() <
@@ -811,7 +811,7 @@ bool FPRow::Pass2Analyze() {
             character(i)->set_merge_to_prev(false);
             finalize(i);
           } else {
-            for (size_t k = i + 1; k < j; k++) {
+            for (unsigned k = i + 1; k < j; k++) {
               character(k)->set_merge_to_prev(true);
             }
           }
@@ -834,7 +834,7 @@ bool FPRow::Pass2Analyze() {
 void FPRow::MergeFragments() {
   int last_char = 0;
 
-  for (size_t j = 0; j < num_chars(); ++j) {
+  for (unsigned j = 0; j < num_chars(); ++j) {
     if (character(j)->merge_to_prev()) {
       character(last_char)->Merge(*character(j));
       character(j)->set_delete_flag(true);
@@ -849,7 +849,7 @@ void FPRow::MergeFragments() {
 
 void FPRow::FinalizeLargeChars() {
   float row_pitch = estimated_pitch();
-  for (size_t i = 0; i < num_chars(); i++) {
+  for (unsigned i = 0; i < num_chars(); i++) {
     if (is_final(i)) continue;
 
     // Finalize if both neighbors are finalized. We have no other choice.
@@ -890,7 +890,7 @@ void FPRow::FinalizeLargeChars() {
   // character L on its left and a not-finalized character R on its
   // right, we mark C as good if the pitch between C and L is good,
   // regardless of the pitch between C and R.
-  for (size_t i = 0; i < num_chars(); i++) {
+  for (unsigned i = 0; i < num_chars(); i++) {
     if (!is_final(i)) continue;
     bool good_pitch = false;
     bool bad_pitch = false;
@@ -1007,7 +1007,7 @@ FPAnalyzer::FPAnalyzer(ICOORD page_tr, TO_BLOCK_LIST *port_blocks)
       FPRow row;
       row.Init(row_it.data());
       rows_.push_back(row);
-      size_t num_chars = rows_.back().num_chars();
+      unsigned num_chars = rows_.back().num_chars();
       if (num_chars <= 1) num_empty_rows_++;
       if (num_chars > max_chars_per_row_) max_chars_per_row_ = num_chars;
     }
