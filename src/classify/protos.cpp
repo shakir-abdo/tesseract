@@ -223,15 +223,11 @@ void FreeClass(CLASS_TYPE Class) {
  * Deallocate the memory consumed by subfields of the specified class.
  **********************************************************************/
 void FreeClassFields(CLASS_TYPE Class) {
-  int i;
-
   if (Class) {
-    if (Class->MaxNumProtos > 0) free(Class->Prototypes);
-    if (Class->MaxNumConfigs > 0) {
-      for (i = 0; i < Class->NumConfigs; i++)
-        FreeBitVector (Class->Configurations[i]);
-      free(Class->Configurations);
-    }
+    delete[] Class->Prototypes;
+    for (int i = 0; i < Class->NumConfigs; i++)
+      FreeBitVector (Class->Configurations[i]);
+    delete[] Class->Configurations;
   }
 }
 
@@ -246,12 +242,14 @@ CLASS_TYPE NewClass(int NumProtos, int NumConfigs) {
 
   Class = new CLASS_STRUCT;
 
+  Class->Prototypes = nullptr;
+  Class->Configurations = nullptr;
+
   if (NumProtos > 0)
-    Class->Prototypes = (PROTO) Emalloc (NumProtos * sizeof (PROTO_STRUCT));
+    Class->Prototypes = new PROTO_STRUCT[NumProtos];
 
   if (NumConfigs > 0)
-    Class->Configurations = (CONFIGS) Emalloc (NumConfigs *
-      sizeof (BIT_VECTOR));
+    Class->Configurations = new BIT_VECTOR[NumConfigs];
   Class->MaxNumProtos = NumProtos;
   Class->MaxNumConfigs = NumConfigs;
   Class->NumProtos = 0;
