@@ -618,6 +618,7 @@ void TessBaseAPI::SetSourceResolution(int ppi) {
  */
 void TessBaseAPI::SetImage(Pix* pix) {
   if (InternalSetImage()) {
+#if 0
     if (pixGetSpp(pix) == 4 && pixGetInputFormat(pix) == IFF_PNG) {
       // remove alpha channel from png
       PIX* p1 = pixRemoveAlpha(pix);
@@ -625,6 +626,7 @@ void TessBaseAPI::SetImage(Pix* pix) {
       pix = pixCopy(nullptr, p1);
       pixDestroy(&p1);
     }
+#endif
     thresholder_->SetImage(pix);
     SetInputImage(thresholder_->GetPixRect());
   }
