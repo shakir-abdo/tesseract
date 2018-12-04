@@ -10,10 +10,10 @@ AC_INIT([tesseract],
         [m4_esyscmd_s([test -d .git && git describe --abbrev=4 || cat VERSION])],
         [https://github.com/tesseract-ocr/tesseract/issues],,
         [https://github.com/tesseract-ocr/tesseract/])
+CXXFLAGS=${CXXFLAGS:-"-g"}
 AC_PROG_CXX([g++ clang++])
 AC_LANG([C++])
 AC_LANG_COMPILER_REQUIRE
-CXXFLAGS=${CXXFLAGS:-""}
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_SRCDIR([src/api/tesseractmain.cpp])
@@ -279,7 +279,7 @@ if test x"$enable_debug" = x"yes"; then
     AM_CXXFLAGS="$AM_CXXFLAGS -g -Wall -O0 -DDEBUG"
     AM_CPPFLAGS="$AM_CPPFLAGS -g -Wall -DDEBUG"
 else
-    AM_CXXFLAGS="$AM_CXXFLAGS -O2 -DNDEBUG"
+    AM_CXXFLAGS="$AM_CXXFLAGS -O2"
     AM_CPPFLAGS="$AM_CPPFLAGS -DNDEBUG"
 fi
 
